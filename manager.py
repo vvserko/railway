@@ -20,17 +20,18 @@ class Manager:
     @staticmethod
     def load_stations():
         try:
-            with open('/data/stations', 'rb') as input_file:
+            with open('./data/stations', 'rb') as input_file:
                 return pickle.load(input_file)
-        except FileNotFoundError:
+        except (FileNotFoundError, EOFError):
             return []
 
-    def save_stations(self):
-        with open('/data/stations', 'wb') as output:
-            pickle.dump(self.stations, output)
+    @staticmethod
+    def save_stations(stations):
+        with open('./data/stations', 'wb') as output:
+            pickle.dump(stations, output)
 
     def add_train(self):
         pass
 
     def add_station(self):
-        add_window = Window(self.root)
+        add_window = Window(self.root, self.stations, self.save_stations)
